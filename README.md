@@ -29,7 +29,6 @@ docker-compose down
 .
 ├── docker/
 │   └── Dockerfile          # Python 3.11 + Java 17 + Spark 3.5.0
-├── apps/                   # Place your PySpark scripts here
 ├── docker-compose.yml      # Cluster orchestration & resource limits
 └── README.md
 
