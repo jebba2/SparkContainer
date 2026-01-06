@@ -1,0 +1,27 @@
+services:
+  spark-master:
+    build:
+      context: .
+      dockerfile: dockerSpark/Dockerfile
+    container_name: spark-master
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+    ports:
+      - "8081:8080"
+      - "7077:7077"
+    command: bin/spark-class org.apache.spark.deploy.master.Master
+
+  spark-worker:
+    build:
+      context: .
+      dockerfile: dockerSpark/Dockerfile
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_CORES=1
+      - SPARK_WORKER_MEMORY=1G
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
